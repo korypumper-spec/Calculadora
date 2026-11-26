@@ -1,0 +1,6 @@
+{
+  "name": "DRK · Simulador de Aguinaldo y Prestaciones IMSS-SNTSS",
+  "description": "Calculadora normativa de aguinaldo y prestaciones laborales basada en el CCT IMSS-SNTSS 2025-2027 y los conceptos 002 y 011 del tarjetón de pago.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
