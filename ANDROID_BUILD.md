@@ -35,3 +35,15 @@ npm run android:aab
 ```
 El archivo `.aab` se ubicará en:
 `android/app/build/outputs/bundle/release/app-release.aab`
+
+## Opción 3: Compilación automática en GitHub Actions
+El repositorio incluye dos flujos de trabajo en `.github/workflows/`:
+1. **`ci-web.yml`**: Ejecuta verificación de tipos (`npm run lint`), pruebas unitarias (`npm test`) y compilación web (`npm run build`), publicando el artefacto `drk-web-dist`.
+2. **`build-android.yml`**: Ejecuta la verificación web, sincroniza Capacitor (`npx cap sync android`) y compila el APK de depuración (`app-debug.apk`) como artefacto descargable `drk-android-debug-apk` en cada push/PR o de forma manual desde la pestaña **Actions**.
+
+Para compilar un **Release AAB firmado** desde GitHub Actions (manualmente activando `build_release` o al publicar un tag `v*`), configura estos secretos en **Settings > Secrets and variables > Actions**:
+- `ANDROID_KEYSTORE_BASE64` (archivo `.keystore` / `.jks` codificado en Base64)
+- `ANDROID_KEYSTORE_PASSWORD`
+- `ANDROID_KEY_ALIAS`
+- `ANDROID_KEY_PASSWORD`
+

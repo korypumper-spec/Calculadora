@@ -1,0 +1,49 @@
+name: CI Web (Build & Tests)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  verify-and-build-web:
+    name: Lint, Tests & Vite Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: TypeScript typecheck
+        run: npm run lint
+
+      - name: Run unit tests (Vitest)
+        run: npm test
+
+      - name: Build production web bundle
+        run: npm run build
+
+      - name: Verify startup animation asset in dist
+        run: test -f dist/assets/aistudio/a_clean_transparent_background_png_style_illustrat_7ae40feb.png
+
+      - name: Upload web dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: drk-web-dist
+          path: dist/
+          retention-days: 14

@@ -12,6 +12,7 @@ import {
   Scale,
   X,
 } from 'lucide-react';
+import { motion } from 'motion/react';
 import { DesgloseResultadoPanel } from './components/DesgloseResultadoPanel';
 import { GuiaConceptosView } from './components/GuiaConceptosView';
 import { MatrizPerfilesView } from './components/MatrizPerfilesView';
@@ -19,6 +20,10 @@ import {
   CalculatorParamsState,
   PrestacionParamsPanel,
 } from './components/PrestacionParamsPanel';
+import {
+  DRK_STARTUP_IMAGE_PATH,
+  StartupSplash,
+} from './components/StartupSplash';
 import { TarjetonCapturePanel } from './components/TarjetonCapturePanel';
 import {
   calcularAguinaldo,
@@ -165,6 +170,7 @@ export default function App() {
   const [params, setParams] = useState<CalculatorParamsState>(INITIAL_PARAMS);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [showStartupSplash, setShowStartupSplash] = useState(true);
 
   const c002InputRef = useRef<HTMLInputElement | null>(null);
 
@@ -315,6 +321,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex bg-slate-50 text-slate-900">
+      <StartupSplash
+        visible={showStartupSplash}
+        onComplete={() => setShowStartupSplash(false)}
+      />
+
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block w-64 shrink-0 bg-white border-r border-slate-200 sticky top-0 h-screen">
         <SidebarContent />
@@ -410,10 +421,21 @@ export default function App() {
               </p>
             </div>
 
-            <div className="shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-lg border border-slate-200 bg-white p-1.5 flex items-center justify-center">
+            <motion.button
+              type="button"
+              onClick={() => setShowStartupSplash(true)}
+              title="Ver animación de inicio Proyecto DRK"
+              aria-label="Ver animación de inicio Proyecto DRK"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-lg border border-slate-200 bg-white p-1.5 flex items-center justify-center hover:border-emerald-700/50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 cursor-pointer"
+            >
               {!imgError ? (
                 <img
-                  src="/assets/aistudio/a_clean_transparent_background_png_style_illustrat_7ae40feb.png"
+                  src={DRK_STARTUP_IMAGE_PATH}
                   alt="Proyecto DRK"
                   referrerPolicy="no-referrer"
                   onError={() => setImgError(true)}
@@ -424,7 +446,7 @@ export default function App() {
                   Proyecto DRK
                 </span>
               )}
-            </div>
+            </motion.button>
           </div>
 
           {section.kind === 'CALCULATOR' && (
