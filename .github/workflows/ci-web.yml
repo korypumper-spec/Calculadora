@@ -7,6 +7,9 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   verify-and-build-web:
     name: Lint, Tests & Vite Build
@@ -16,18 +19,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
+          cache: npm
 
       - name: Install dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+        run: npm ci
 
       - name: TypeScript typecheck
         run: npm run lint
@@ -38,12 +37,15 @@ jobs:
       - name: Build production web bundle
         run: npm run build
 
-      - name: Verify startup animation asset in dist
-        run: test -f dist/assets/aistudio/a_clean_transparent_background_png_style_illustrat_7ae40feb.png
+      - name: Verify built web bundle and startup asset
+        run: |
+          test -s dist/index.html
+          test -s dist/assets/aistudio/a_clean_transparent_background_png_style_illustrat_7ae40feb.png
 
       - name: Upload web dist artifact
         uses: actions/upload-artifact@v4
         with:
           name: drk-web-dist
           path: dist/
+          if-no-files-found: error
           retention-days: 14
