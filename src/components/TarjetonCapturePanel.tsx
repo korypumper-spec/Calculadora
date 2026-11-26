@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, RotateCcw } from 'lucide-react';
+import { ConceptTooltip } from './ConceptTooltip';
 import { BigDecimal } from '../engine/bigDecimal';
 import {
   normalizarTarjeton,
@@ -33,6 +34,8 @@ export const TarjetonCapturePanel: React.FC<TarjetonCapturePanelProps> = ({
   c002InputRef,
 }) => {
   const norm = normalizarTarjeton(tarjeton);
+  const [hoverC002, setHoverC002] = useState(false);
+  const [hoverC011, setHoverC011] = useState(false);
 
   const updatePerfil = (perfil: PerfilLaboral) => {
     onChange({ ...tarjeton, perfilLaboral: perfil });
@@ -157,13 +160,22 @@ export const TarjetonCapturePanel: React.FC<TarjetonCapturePanelProps> = ({
         {/* Concepto 002 */}
         <div className="space-y-2.5">
           <div className="flex items-center justify-between gap-2">
-            <label
-              htmlFor="input-c002"
-              className="text-sm font-semibold text-slate-900"
-            >
-              <span className="font-mono text-emerald-800 mr-1.5">002</span>
-              Sueldo Base (Tabular)
-            </label>
+            <div className="flex items-center gap-1.5 min-w-0">
+              <label
+                htmlFor="input-c002"
+                className="text-sm font-semibold text-slate-900 truncate"
+              >
+                <span className="font-mono text-emerald-800 mr-1.5">002</span>
+                Sueldo Base (Tabular)
+              </label>
+              <ConceptTooltip
+                codigo="002"
+                titulo="Sueldo Base (Tabular)"
+                descripcion="Es el sueldo tabular base asignado a tu categoría en el tarjetón de pago del IMSS, antes de prestaciones adicionales o deducciones."
+                notaNormativa="Sirve como base única para el Fondo de Ahorro (Cláusula 144) y se integra al Sueldo Nominal en Aguinaldo (Cláusula 107). No uses Total Líquido ni Concepto 049."
+                externalHover={hoverC002}
+              />
+            </div>
             <div className="inline-flex items-center p-0.5 bg-slate-100 border border-slate-200 rounded-md shrink-0">
               <button
                 type="button"
@@ -194,7 +206,11 @@ export const TarjetonCapturePanel: React.FC<TarjetonCapturePanelProps> = ({
             </div>
           </div>
 
-          <div className="relative">
+          <div
+            className="relative"
+            onMouseEnter={() => setHoverC002(true)}
+            onMouseLeave={() => setHoverC002(false)}
+          >
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-mono text-slate-500">
               $
             </span>
@@ -234,13 +250,22 @@ export const TarjetonCapturePanel: React.FC<TarjetonCapturePanelProps> = ({
         {/* Concepto 011 */}
         <div className="space-y-2.5">
           <div className="flex items-center justify-between gap-2">
-            <label
-              htmlFor="input-c011"
-              className="text-sm font-semibold text-slate-900"
-            >
-              <span className="font-mono text-emerald-800 mr-1.5">011</span>
-              Ayuda de Renta · Cláusula 63 Bis, inciso b
-            </label>
+            <div className="flex items-center gap-1.5 min-w-0">
+              <label
+                htmlFor="input-c011"
+                className="text-sm font-semibold text-slate-900 truncate"
+              >
+                <span className="font-mono text-emerald-800 mr-1.5">011</span>
+                Ayuda de Renta · Cláusula 63 Bis, inciso b
+              </label>
+              <ConceptTooltip
+                codigo="011"
+                titulo="Ayuda de Renta (Cláusula 63 Bis b)"
+                descripcion="Percepción contractual específica establecida en la Cláusula 63 Bis, inciso b del CCT IMSS-SNTSS."
+                notaNormativa="Captura únicamente el Concepto 011 sin sustituirlo por 020 o 022. Se suma al 002 para Aguinaldo y Vacaciones, pero queda excluido del Fondo de Ahorro (Cláusula 144)."
+                externalHover={hoverC011}
+              />
+            </div>
             <div className="inline-flex items-center p-0.5 bg-slate-100 border border-slate-200 rounded-md shrink-0">
               <button
                 type="button"
@@ -271,7 +296,11 @@ export const TarjetonCapturePanel: React.FC<TarjetonCapturePanelProps> = ({
             </div>
           </div>
 
-          <div className="relative">
+          <div
+            className="relative"
+            onMouseEnter={() => setHoverC011(true)}
+            onMouseLeave={() => setHoverC011(false)}
+          >
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-mono text-slate-500">
               $
             </span>

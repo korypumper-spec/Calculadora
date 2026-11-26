@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DRK Simulador IMSS</string>
+    <string name="title_activity_main">DRK Simulador IMSS</string>
+    <string name="package_name">com.drk.imss.simulador</string>
+    <string name="custom_url_scheme">com.drk.imss.simulador</string>
+</resources>
