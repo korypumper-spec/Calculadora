@@ -56,11 +56,15 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Verify generated web assets
+      - name: Verify generated web assets and launcher icons
         run: |
           test -s dist/index.html
           test -s android/app/src/main/assets/public/index.html
           test -s android/app/src/main/assets/public/assets/aistudio/a_clean_transparent_background_png_style_illustrat_7ae40feb.png
+          test -s android/app/src/main/assets/public/assets/aistudio/a_crisp_colorful_glossy_cartoon_like_app_icon_d_fe3994ea.png
+          test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+          test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
 
       - name: Make Gradle executable
         run: chmod +x android/gradlew

@@ -37,10 +37,11 @@ jobs:
       - name: Build production web bundle
         run: npm run build
 
-      - name: Verify built web bundle and startup asset
+      - name: Verify built web bundle and startup/icon assets
         run: |
           test -s dist/index.html
           test -s dist/assets/aistudio/a_clean_transparent_background_png_style_illustrat_7ae40feb.png
+          test -s dist/assets/aistudio/a_crisp_colorful_glossy_cartoon_like_app_icon_d_fe3994ea.png
 
       - name: Upload web dist artifact
         uses: actions/upload-artifact@v4
